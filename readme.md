@@ -7,3 +7,4 @@
 - [environment-by-docker-example](./environment-by-docker-example)
 - [go-examples](./go-examples)
 - [shell-script-example](./shell-script-example)
+- [micro-service-by-go-kit](./micro-service-by-go-kit)
