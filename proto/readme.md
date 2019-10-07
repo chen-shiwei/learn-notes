@@ -10,3 +10,6 @@
     
 ### 生成go文件
     protoc --go_out=. *.proto
+    
+    
+> 详细 [https://colobu.com/2019/10/03/protobuf-ultimate-tutorial-in-go/](https://colobu.com/2019/10/03/protobuf-ultimate-tutorial-in-go/)
