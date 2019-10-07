@@ -1,0 +1,12 @@
+{
+	"Email": "buzoumei@gmail.com",
+	"Registration": {
+		"body": {
+			"status": "valid",
+			"contact": [
+				"mailto:buzoumei@gmail.com"
+			]
+		},
+		"uri": "https://acme-v02.api.letsencrypt.org/acme/acct/37961526"
+	}
+}

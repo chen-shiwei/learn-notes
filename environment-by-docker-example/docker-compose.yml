@@ -1,0 +1,89 @@
+version: '2'
+
+services:
+  caddy:
+    depends_on:
+      - "miniprogram"
+      - "pc"
+    image: "abiosoft/caddy"
+    environment:
+      ACME_AGREE: 1
+    volumes:
+     - "$PWD/conf/caddy/Caddyfile:/etc/Caddyfile"
+     - "$PWD/conf/caddy/.caddy:/root/.caddy"
+     - "$PWD/conf/caddy/log/:/var/log/caddy/"
+     - "$PWD/www/:/var/www/"
+    ports:
+     - "80:80"
+     - "443:443"
+    networks:
+     - slhs-network
+    container_name: "slhs-caddy"  
+  
+  # nginx:
+  #   depends_on:
+  #     - "miniprogram"
+  #     - "pc"
+  #   image: "nginx"
+  #   volumes:
+  #    - "$PWD/conf/nginx:/etc/nginx"
+  #    - "$PWD/www:/usr/share/nginx/html"
+  #   ports:
+  #    - "80:80"
+  #    - "443:443"
+  #   networks:
+  #    - slhs-network
+  #   container_name: "slhs-nginx"  
+  miniprogram:
+    image: "slhs-miniprogram-php"
+    build:  
+      context: .
+      dockerfile: "docker-file/miniprogram-php/Dockerfile"
+    networks:
+      - slhs-network
+    container_name: "slhs-miniprogram-server"
+    volumes:
+      - "$PWD/www:/var/www/html"
+    ports:
+      - "9001:9000"
+  pc:
+    image: "slhs-pc-php"
+    build:  
+      context: .
+      dockerfile: "docker-file/pc-php/Dockerfile"
+    networks:
+      - slhs-network
+    container_name: "slhs-pc-server"
+    volumes:
+      - "$PWD/www:/var/www/html"
+    ports:
+      - "9002:9000"
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+    - "$PWD/db_data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234qwer
+      MYSQL_DATABASE: slhs
+      MYSQL_USER: slhs
+      MYSQL_PASSWORD: 1234qwer
+    ports:
+      - "33060:3306"
+    networks:
+      - slhs-network
+    container_name: "slhs-mysql"
+
+  redis:
+    image: "redis"
+    ports:
+      - "63790:6379"
+    networks:
+      - slhs-network
+    # volumes:
+    #   - "conf/redis/redis.conf:/usr/local/etc/redis/redis.conf"
+    container_name: "slhs-redis"
+
+networks:
+  slhs-network:
+    driver: bridge

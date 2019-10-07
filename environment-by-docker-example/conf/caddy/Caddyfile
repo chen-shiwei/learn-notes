@@ -1,0 +1,36 @@
+restful.api.shanlilohas.com {
+    gzip
+    log /var/log/caddy/mini.log
+    root /var/www/miniprogram-project/public    
+    tls buzoumei@gmail.com    
+    header / {
+        Access-Control-Allow-Origin  *
+        Access-Control-Allow-Methods "GET, POST, OPTIONS"
+        -Server
+    }
+    fastcgi / miniprogram:9000 php {
+        root /var/www/html/miniprogram-project/public
+        index index.php
+    }
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+}
+www.shanlilohas.com {
+    gzip
+    log /var/log/caddy/pc.log
+    tls buzoumei@gmail.com        
+    root /var/www/shanlilohas-project
+    header / {
+        Access-Control-Allow-Origin  *
+        Access-Control-Allow-Methods "GET, POST, OPTIONS"
+        -Server
+    }
+    fastcgi / pc:9001 php {
+        root /var/www/html/shanlilohas-project        
+        index index.php
+    }
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+}
